@@ -7,5 +7,5 @@ FROM openjdk:11.0.4-jre-slim
 RUN mkdir /app
 WORKDIR /app
 COPY --from=build ./app/api/target/api-1.0-SNAPSHOT.jar /app
-EXPOSE 8083
+EXPOSE 8085
 CMD ["java", "-jar", "api-1.0-SNAPSHOT.jar"]
