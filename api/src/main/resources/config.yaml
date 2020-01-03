@@ -1,0 +1,15 @@
+kumuluzee:
+  name: code-users
+  env:
+    name: dev
+  version: 1.0.0
+  server:
+    base-url: http://localhost:8085
+    http:
+      port: 8085
+  datasources:
+    - jndi-name: jdbc/UserMetadataPS
+      connection-url: jdbc:postgresql://localhost:5435/code-users
+      username: dbuser
+      password: postgres
+      max-pool-size: 20
