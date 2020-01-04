@@ -3,6 +3,7 @@ package com.fri.code.users.api.v1.resources;
 import com.fri.code.users.api.v1.dtos.ApiError;
 import com.fri.code.users.lib.UserMetadata;
 import com.fri.code.users.services.beans.UserMetadataBean;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -22,6 +23,7 @@ public class UserMetadataResource {
 
     @GET
     @Path("/all")
+    @Timed
     public Response getUsers(){
         List<UserMetadata> users =userMetadataBean.getAllUsers();
         return Response.status(Response.Status.OK).entity(users).build();

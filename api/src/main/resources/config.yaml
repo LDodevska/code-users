@@ -13,3 +13,15 @@ kumuluzee:
       username: dbuser
       password: postgres
       max-pool-size: 20
+  discovery:
+    etcd:
+      hosts: http://localhost:2379
+  health:
+    checks:
+      data-source-health-check:
+        type: liveness
+        jndi-name: jdbc/UserMetadataPS
+    metrics:
+      web-instrumentation:
+        - name: users-endpoint
+          url-pattern: /v1/users/*
