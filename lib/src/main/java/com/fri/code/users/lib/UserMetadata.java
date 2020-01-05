@@ -1,11 +1,32 @@
 package com.fri.code.users.lib;
 
+import java.util.List;
+
 public class UserMetadata {
 
     public Integer ID;
     public String firstName;
     public String lastName;
     public String email;
+
+    // Subject IDs
+    public List<Integer> subjects;
+
+    public List<Integer> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(List<Integer> subjects) {
+        this.subjects = subjects;
+    }
+
+    public void addSubjectId(Integer subjectID){
+        this.subjects.add(subjectID);
+    }
+
+    public void removeSubjectId(Integer subjectID){
+        this.subjects.remove(subjectID);
+    }
 
     public Integer getID() {
         return ID;

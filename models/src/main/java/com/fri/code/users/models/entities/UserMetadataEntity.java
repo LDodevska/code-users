@@ -1,6 +1,9 @@
 package com.fri.code.users.models.entities;
 
+import com.fri.code.users.lib.SubjectMetadata;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "user_entity")
@@ -24,6 +27,18 @@ public class UserMetadataEntity {
 
     @Column(name = "email")
     private String email;
+
+    //Subject IDs
+    @ElementCollection
+    private List<Integer> subjects;
+
+    public List<Integer> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(List<Integer> subjects) {
+        this.subjects = subjects;
+    }
 
     public Integer getID() {
         return ID;

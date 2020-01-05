@@ -11,6 +11,7 @@ public class UserMetadataConverter {
         userMetadata.setFirstName(userMetadataEntity.getFirstName());
         userMetadata.setLastName(userMetadataEntity.getLastName());
         userMetadata.setEmail(userMetadataEntity.getEmail());
+        userMetadata.setSubjects(userMetadataEntity.getSubjects());
 
         return userMetadata;
     }
@@ -21,6 +22,7 @@ public class UserMetadataConverter {
         entity.setFirstName(userMetadata.getFirstName());
         entity.setLastName(userMetadata.getLastName());
         entity.setEmail(userMetadata.getEmail());
+        entity.setSubjects(userMetadata.getSubjects());
 
         return entity;
     }

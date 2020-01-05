@@ -1,6 +1,7 @@
 package com.fri.code.users.api.v1.resources;
 
 import com.fri.code.users.api.v1.dtos.ApiError;
+import com.fri.code.users.lib.SubjectMetadata;
 import com.fri.code.users.lib.UserMetadata;
 import com.fri.code.users.services.beans.UserMetadataBean;
 import org.eclipse.microprofile.metrics.annotation.Timed;
@@ -42,6 +43,36 @@ public class UserMetadataResource {
             error.setStatus(Response.Status.NOT_FOUND.getStatusCode());
             return Response.status(Response.Status.NOT_FOUND).entity(error).build();
         }
+    }
+
+    @GET
+    @Path("/{userID}/subjects")
+    public Response getSubjectsForUser(@PathParam("userID") Integer userID){
+        try{
+            SubjectMetadata subjectMetadata = userMetadataBean.getSubjectById(2);
+            return Response.status(Response.Status.OK).entity(subjectMetadata).build();
+        }
+        catch (Exception e) {
+            ApiError error = new ApiError();
+            error.setCode(Response.Status.NOT_FOUND.toString());
+            error.setMessage(e.getMessage());
+            error.setStatus(Response.Status.NOT_FOUND.getStatusCode());
+            return Response.status(Response.Status.NOT_FOUND).entity(error).build();
+        }
+    }
+
+    @PUT
+    @Path("/{userID}/addSubject")
+    public Response addUser(@PathParam("userID") Integer userID, @QueryParam("subjectID") Integer subjectID){
+        UserMetadata userMetadata = userMetadataBean.addSubject(userID, subjectID);
+        if (userMetadata == null){
+            ApiError error = new ApiError();
+            error.setCode(Response.Status.BAD_REQUEST.toString());
+            error.setMessage("Something is wrong");
+            error.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
+            return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
+        }
+        return Response.status(Response.Status.OK).entity(userMetadata).build();
     }
 
     @POST

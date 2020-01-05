@@ -21,7 +21,7 @@ kumuluzee:
       data-source-health-check:
         type: liveness
         jndi-name: jdbc/UserMetadataPS
-    metrics:
-      web-instrumentation:
-        - name: users-endpoint
-          url-pattern: /v1/users/*
+  metrics:
+    web-instrumentation:
+      - name: users-endpoint
+        url-pattern: /v1/users/*
