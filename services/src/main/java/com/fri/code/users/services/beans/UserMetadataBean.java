@@ -12,6 +12,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.security.auth.Subject;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.ProcessingException;
@@ -19,7 +20,9 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.GenericType;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -39,16 +42,16 @@ public class UserMetadataBean {
     private Optional<String> subjectsPath;
 
     @PostConstruct
-    private void init(){
+    private void init() {
         httpClient = ClientBuilder.newClient();
     }
 
-    public List<UserMetadata> getAllUsers(){
+    public List<UserMetadata> getAllUsers() {
         TypedQuery<UserMetadataEntity> query = em.createNamedQuery("UserMetadataEntity.getAll", UserMetadataEntity.class);
         return query.getResultList().stream().map(UserMetadataConverter::toDTO).collect(Collectors.toList());
     }
 
-    public UserMetadata getUserById(Integer userID){
+    public UserMetadata getUserById(Integer userID) {
         UserMetadataEntity user = em.find(UserMetadataEntity.class, userID);
         if (user == null)
             throw new NotFoundException();
@@ -56,28 +59,38 @@ public class UserMetadataBean {
         return UserMetadataConverter.toDTO(user);
     }
 
-    public List<SubjectMetadata> getSubjectsForUser(Integer userID){
+    public List<SubjectMetadata> getSubjectsForUser(Integer userID) {
         UserMetadataEntity entity = em.find(UserMetadataEntity.class, userID);
 
         if (entity == null)
             return null;
 
+        List<SubjectMetadata> subjects = new ArrayList<SubjectMetadata>();
         List<Integer> subjectsIDs = entity.getSubjects();
 
+        for (Integer id : subjectsIDs) {
+            try {
+                SubjectMetadata subject = getSubjectById(id);
+                subjects.add(subject);
+            } catch (Exception e) {
+                //throw new NoSuchElementException();
+                continue;
+            }
 
-        return null;
+        }
+
+        return subjects;
 
     }
 
-    public SubjectMetadata getSubjectById(Integer subjectID){
-        log.setLevel(Level.ALL);
-        log.severe("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + subjectsPath.get().length());
+    public SubjectMetadata getSubjectById(Integer subjectID) {
         if (subjectsPath.isPresent()) {
             try {
-                return httpClient
+                SubjectMetadata subject = httpClient
                         .target(String.format("%s/v1/subjects/%d", subjectsPath.get(), subjectID))
                         .request().get(new GenericType<SubjectMetadata>() {
                         });
+                return subject;
             } catch (WebApplicationException | ProcessingException e) {
                 throw new InternalServerErrorException(e);
             }
@@ -86,10 +99,10 @@ public class UserMetadataBean {
         return null;
     }
 
-    public UserMetadata addSubject(Integer userID, Integer subjectID){
+    public UserMetadata addSubject(Integer userID, Integer subjectID) {
         UserMetadataEntity entity = em.find(UserMetadataEntity.class, userID);
 
-        if (entity == null){
+        if (entity == null) {
             return null;
         }
 
@@ -111,7 +124,32 @@ public class UserMetadataBean {
 
     }
 
-    public UserMetadata createUserMetadata(UserMetadata userMetadata){
+    public UserMetadata removeSubject(Integer userID, Integer subjectID) {
+        UserMetadataEntity entity = em.find(UserMetadataEntity.class, userID);
+
+        if (entity == null) {
+            return null;
+        }
+
+        UserMetadata userDto = UserMetadataConverter.toDTO(entity);
+        userDto.removeSubjectId(subjectID);
+
+        UserMetadataEntity updatedEntity = UserMetadataConverter.toEntity(userDto);
+
+        try {
+            beginTx();
+            updatedEntity.setID(entity.getID());
+            updatedEntity = em.merge(updatedEntity);
+            commitTx();
+        } catch (Exception e) {
+            rollbackTx();
+        }
+
+        return UserMetadataConverter.toDTO(updatedEntity);
+
+    }
+
+    public UserMetadata createUserMetadata(UserMetadata userMetadata) {
         UserMetadataEntity entity = UserMetadataConverter.toEntity(userMetadata);
 
         try {
@@ -130,7 +168,7 @@ public class UserMetadataBean {
 
     }
 
-    public UserMetadata putUserMetadata(Integer userID, UserMetadata userMetadata){
+    public UserMetadata putUserMetadata(Integer userID, UserMetadata userMetadata) {
         UserMetadataEntity entity = em.find(UserMetadataEntity.class, userID);
 
         if (entity == null) {
@@ -152,7 +190,7 @@ public class UserMetadataBean {
 
     }
 
-    public boolean deleteUserMetadata(Integer userID){
+    public boolean deleteUserMetadata(Integer userID) {
 
         UserMetadataEntity entity = em.find(UserMetadataEntity.class, userID);
         if (entity != null) {
@@ -163,8 +201,7 @@ public class UserMetadataBean {
             } catch (Exception e) {
                 rollbackTx();
             }
-        }
-        else return false;
+        } else return false;
         return true;
     }
 

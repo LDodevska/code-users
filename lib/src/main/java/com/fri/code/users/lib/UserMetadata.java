@@ -25,7 +25,9 @@ public class UserMetadata {
     }
 
     public void removeSubjectId(Integer subjectID){
-        this.subjects.remove(subjectID);
+        if (this.subjects.contains(subjectID)) {
+            this.subjects.remove(subjectID);
+        }
     }
 
     public Integer getID() {

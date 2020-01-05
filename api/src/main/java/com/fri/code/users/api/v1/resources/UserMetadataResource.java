@@ -49,8 +49,8 @@ public class UserMetadataResource {
     @Path("/{userID}/subjects")
     public Response getSubjectsForUser(@PathParam("userID") Integer userID){
         try{
-            SubjectMetadata subjectMetadata = userMetadataBean.getSubjectById(2);
-            return Response.status(Response.Status.OK).entity(subjectMetadata).build();
+            List<SubjectMetadata> subjects = userMetadataBean.getSubjectsForUser(userID);
+            return Response.status(Response.Status.OK).entity(subjects).build();
         }
         catch (Exception e) {
             ApiError error = new ApiError();
@@ -63,12 +63,26 @@ public class UserMetadataResource {
 
     @PUT
     @Path("/{userID}/addSubject")
-    public Response addUser(@PathParam("userID") Integer userID, @QueryParam("subjectID") Integer subjectID){
+    public Response addSubject(@PathParam("userID") Integer userID, @QueryParam("subjectID") Integer subjectID){
         UserMetadata userMetadata = userMetadataBean.addSubject(userID, subjectID);
         if (userMetadata == null){
             ApiError error = new ApiError();
             error.setCode(Response.Status.BAD_REQUEST.toString());
-            error.setMessage("Something is wrong");
+            error.setMessage("The subject cannot be added");
+            error.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
+            return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
+        }
+        return Response.status(Response.Status.OK).entity(userMetadata).build();
+    }
+
+    @PUT
+    @Path("/{userID}/removeSubject")
+    public Response removeSubject(@PathParam("userID") Integer userID, @QueryParam("subjectID") Integer subjectID){
+        UserMetadata userMetadata = userMetadataBean.removeSubject(userID, subjectID);
+        if (userMetadata == null){
+            ApiError error = new ApiError();
+            error.setCode(Response.Status.BAD_REQUEST.toString());
+            error.setMessage("The subject cannot be removed");
             error.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
             return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
         }
