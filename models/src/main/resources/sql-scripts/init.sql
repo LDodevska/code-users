@@ -1,1 +1,1 @@
-INSERT INTO user_entity (first_name, last_name, email) VALUES ('Lodi','Dodevska', 'lodi.dodevska@gmail.com'), ('Viktor', 'Petreski', 'vpetreski96@gmail.com');
+INSERT INTO user_entity (first_name, last_name, email, role) VALUES ('Lodi','Dodevska', 'lodi.dodevska@gmail.com', 'ROLE_ADMIN'), ('Viktor', 'Petreski', 'vpetreski96@gmail.com','ROLE_USER');

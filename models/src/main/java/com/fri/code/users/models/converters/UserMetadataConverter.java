@@ -12,6 +12,10 @@ public class UserMetadataConverter {
         userMetadata.setLastName(userMetadataEntity.getLastName());
         userMetadata.setEmail(userMetadataEntity.getEmail());
         userMetadata.setSubjects(userMetadataEntity.getSubjects());
+        userMetadata.setUsername(userMetadataEntity.getUsername());
+        userMetadata.setPassword(userMetadataEntity.getPassword());
+        userMetadata.setRole(userMetadataEntity.getRole());
+        userMetadata.setAccessToken(userMetadataEntity.getAccessToken());
 
         return userMetadata;
     }
@@ -23,6 +27,10 @@ public class UserMetadataConverter {
         entity.setLastName(userMetadata.getLastName());
         entity.setEmail(userMetadata.getEmail());
         entity.setSubjects(userMetadata.getSubjects());
+        entity.setUsername(userMetadata.getUsername());
+        entity.setPassword(userMetadata.getPassword());
+        entity.setRole(userMetadata.getRole());
+        entity.setAccessToken(userMetadata.getAccessToken());
 
         return entity;
     }

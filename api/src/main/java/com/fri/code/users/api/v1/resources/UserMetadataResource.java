@@ -63,6 +63,7 @@ public class UserMetadataResource {
     }
 
     @PUT
+    @RolesAllowed("admin")
     @Path("/{userID}/addSubject")
     public Response addUser(@PathParam("userID") Integer userID, @QueryParam("subjectID") Integer subjectID){
         UserMetadata userMetadata = userMetadataBean.addSubject(userID, subjectID);
@@ -77,7 +78,7 @@ public class UserMetadataResource {
     }
 
     @POST
-    @RolesAllowed("user")
+    @RolesAllowed("admin")
     public Response createUser(UserMetadata userMetadata){
 
         if (userMetadata.getFirstName() == null || userMetadata.getLastName() == null || userMetadata.getEmail() == null) {
@@ -102,6 +103,7 @@ public class UserMetadataResource {
     }
 
     @PUT
+    @RolesAllowed("admin")
     @Path("/{userID}")
     public Response putUser(@PathParam("userID") Integer userID, UserMetadata userMetadata){
         if (userMetadata.getFirstName() == null || userMetadata.getLastName() == null || userMetadata.getEmail() == null) {
@@ -124,6 +126,7 @@ public class UserMetadataResource {
     }
 
     @DELETE
+    @RolesAllowed("admin")
     @Path("/{userID}")
     public Response deleteUser(@PathParam("userID") Integer userID){
         if (userMetadataBean.deleteUserMetadata(userID)) {
