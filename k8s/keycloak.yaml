@@ -13,11 +13,11 @@ spec:
         app: keycloak
     spec:
       containers:
-          env:
-            - name: KEYCLOAK_USER
-              value: admin
-            - name: KEYCLOAK_PASSWORD
-              value: laptop
+        env:
+          - name: KEYCLOAK_USER
+            value: admin
+          - name: KEYCLOAK_PASSWORD
+            value: laptop
           image: jboss/keycloak
           name: keycloak
           ports:
