@@ -4,7 +4,6 @@ import com.fri.code.users.lib.SubjectMetadata;
 import com.fri.code.users.lib.UserMetadata;
 import com.fri.code.users.models.converters.UserMetadataConverter;
 import com.fri.code.users.models.entities.UserMetadataEntity;
-import com.fri.code.users.services.config.IntegrationConfiguration;
 import com.kumuluz.ee.discovery.annotations.DiscoverService;
 
 import javax.annotation.PostConstruct;

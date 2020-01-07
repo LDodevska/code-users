@@ -6,6 +6,7 @@ import com.fri.code.users.lib.UserMetadata;
 import com.fri.code.users.services.beans.UserMetadataBean;
 import org.eclipse.microprofile.metrics.annotation.Timed;
 
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -63,26 +64,12 @@ public class UserMetadataResource {
 
     @PUT
     @Path("/{userID}/addSubject")
-    public Response addSubject(@PathParam("userID") Integer userID, @QueryParam("subjectID") Integer subjectID){
+    public Response addUser(@PathParam("userID") Integer userID, @QueryParam("subjectID") Integer subjectID){
         UserMetadata userMetadata = userMetadataBean.addSubject(userID, subjectID);
         if (userMetadata == null){
             ApiError error = new ApiError();
             error.setCode(Response.Status.BAD_REQUEST.toString());
-            error.setMessage("The subject cannot be added");
-            error.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
-            return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
-        }
-        return Response.status(Response.Status.OK).entity(userMetadata).build();
-    }
-
-    @PUT
-    @Path("/{userID}/removeSubject")
-    public Response removeSubject(@PathParam("userID") Integer userID, @QueryParam("subjectID") Integer subjectID){
-        UserMetadata userMetadata = userMetadataBean.removeSubject(userID, subjectID);
-        if (userMetadata == null){
-            ApiError error = new ApiError();
-            error.setCode(Response.Status.BAD_REQUEST.toString());
-            error.setMessage("The subject cannot be removed");
+            error.setMessage("Something is wrong");
             error.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
             return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
         }
@@ -90,6 +77,7 @@ public class UserMetadataResource {
     }
 
     @POST
+    @RolesAllowed("user")
     public Response createUser(UserMetadata userMetadata){
 
         if (userMetadata.getFirstName() == null || userMetadata.getLastName() == null || userMetadata.getEmail() == null) {

@@ -25,3 +25,13 @@ kumuluzee:
     web-instrumentation:
       - name: users-endpoint
         url-pattern: /v1/users/*
+  security:
+    keycloak:
+      json: '{
+        "realm": "users-realm",
+        "bearer-only": true,
+        "auth-server-url": "http://localhost:8080/auth/",
+        "ssl-required": "external",
+        "resource": "users-api",
+        "confidential-port": 0
+      }'
