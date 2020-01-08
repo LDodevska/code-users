@@ -13,7 +13,7 @@ spec:
         app: code-users
     spec:
       containers:
-        - image: ldodevska/code-users:1.0-SNAPSHOT-11.1
+        - image: ldodevska/code-users:1.0-SNAPSHOT-14.1
           name: code-users
           env:
             - name: KUMULUZEE_DISCOVERY_CLUSTER

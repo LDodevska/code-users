@@ -13,7 +13,7 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 @OpenAPIDefinition(info = @Info(title = "UsersApi", version = "v1.0.0",
-        contact = @Contact()), servers = @Server(url = "http://localhost:8085/v1"), security
+        contact = @Contact()), servers = @Server(url = "http://35.223.203.195:8080/v1"), security
         = @SecurityRequirement(name = "openid-connect"))
 @ApplicationPath("/v1")
 @DeclareRoles({"user", "admin"})
