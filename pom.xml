@@ -22,6 +22,10 @@
         <kumuluzee-config-mp.version>1.3.0</kumuluzee-config-mp.version>
         <kumuluzee-health.version>2.1.0</kumuluzee-health.version>
         <kumuluzee-metrics.version>2.0.1</kumuluzee-metrics.version>
+        <kumuluzee-logs.version>1.3.1</kumuluzee-logs.version>
+
+        <kumuluzee-openapi.version>1.1.0-SNAPSHOT</kumuluzee-openapi.version>
+
 
         <kumuluzee-security.version>1.2.0-SNAPSHOT</kumuluzee-security.version>
         <keycloak.version>5.0.0</keycloak.version>
@@ -105,6 +109,19 @@
                 <groupId>org.keycloak</groupId>
                 <artifactId>keycloak-jetty94-adapter</artifactId>
                 <version>${keycloak.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.kumuluz.ee.openapi</groupId>
+                <artifactId>kumuluzee-openapi</artifactId>
+                <version>${kumuluzee-openapi.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <artifactId>kumuluzee-logs-log4j2</artifactId>
+                <groupId>com.kumuluz.ee.logs</groupId>
+                <version>${kumuluzee-logs.version}</version>
             </dependency>
 
 

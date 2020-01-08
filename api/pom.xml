@@ -68,6 +68,17 @@
         </dependency>
 
         <dependency>
+            <groupId>com.kumuluz.ee.openapi</groupId>
+            <artifactId>kumuluzee-openapi</artifactId>
+            <version>${kumuluzee-openapi.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>kumuluzee-logs-log4j2</artifactId>
+            <groupId>com.kumuluz.ee.logs</groupId>
+        </dependency>
+
+        <dependency>
             <groupId>com.fri.code</groupId>
             <artifactId>services</artifactId>
             <version>1.0-SNAPSHOT</version>
@@ -79,6 +90,7 @@
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
+
     </dependencies>
 
 
