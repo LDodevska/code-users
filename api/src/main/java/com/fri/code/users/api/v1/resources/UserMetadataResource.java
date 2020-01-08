@@ -49,7 +49,8 @@ public class UserMetadataResource {
     @Operation(summary = "Get user", description = "Returns details for specific user.")
     @ApiResponses({
             @ApiResponse(description = "User details", responseCode = "200", content = @Content(schema = @Schema(implementation =
-                    UserMetadata.class)))
+                    UserMetadata.class))),
+            @ApiResponse(description = "The user cannot be found", responseCode = "404")
     })
     @Path("/{userID}")
     public Response getUserById(@PathParam("userID") Integer userID){
@@ -66,7 +67,8 @@ public class UserMetadataResource {
     @Operation(summary = "Get subjects for specific user", description = "Returns subject for specific user.")
     @ApiResponses({
                     @ApiResponse(description = "Subjects for user", responseCode = "200",
-                            content = @Content(array = @ArraySchema(schema = @Schema(implementation = SubjectMetadata.class))))
+                            content = @Content(array = @ArraySchema(schema = @Schema(implementation = SubjectMetadata.class)))),
+            @ApiResponse(description = "The user details cannot be found", responseCode = "404")
     })
     @Path("/{userID}/subjects")
     public Response getSubjectsForUser(@PathParam("userID") Integer userID){
@@ -84,7 +86,8 @@ public class UserMetadataResource {
     @Operation(summary = "Add subject ID for specific user", description = "Returns user with updated subject IDs.")
     @ApiResponses({
             @ApiResponse(description = "Add subject ID for user", responseCode = "200", content = @Content(schema = @Schema(implementation =
-                    UserMetadata.class)))
+                    UserMetadata.class))),
+            @ApiResponse(description = "The subject ID cannot be added", responseCode = "400")
     })
     @RolesAllowed("admin")
     @Path("/{userID}/addSubject")
@@ -101,7 +104,8 @@ public class UserMetadataResource {
     @Operation(summary = "Create a new user", description = "Returns the created user.")
     @ApiResponses({
             @ApiResponse(description = "Create new user", responseCode = "200", content = @Content(schema = @Schema(implementation =
-                    UserMetadata.class)))
+                    UserMetadata.class))),
+            @ApiResponse(description = "The user cannot be created", responseCode = "400")
     })
     @RolesAllowed("admin")
     public Response createUser(UserMetadata userMetadata){
@@ -125,7 +129,9 @@ public class UserMetadataResource {
     @Operation(summary = "Update an existing user", description = "Returns the updated user.")
     @ApiResponses({
             @ApiResponse(description = "Update existing user", responseCode = "200", content = @Content(schema = @Schema(implementation =
-                    UserMetadata.class)))
+                    UserMetadata.class))),
+            @ApiResponse(description = "Missing parameters", responseCode = "400"),
+            @ApiResponse(description = "The user cannot be found", responseCode = "404")
     })
     @RolesAllowed("admin")
     @Path("/{userID}")
@@ -146,7 +152,8 @@ public class UserMetadataResource {
     @DELETE
     @Operation(summary = "Delete an existing user", description = "Deletes a specific user.")
     @ApiResponses({
-            @ApiResponse(description = "Delete user", responseCode = "204")
+            @ApiResponse(description = "Delete user", responseCode = "204"),
+            @ApiResponse(description = "The user cannot be found", responseCode = "404")
     })
     @RolesAllowed("admin")
     @Path("/{userID}")
