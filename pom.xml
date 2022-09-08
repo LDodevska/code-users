@@ -30,7 +30,7 @@
         <kumuluzee-security.version>1.2.0-SNAPSHOT</kumuluzee-security.version>
         <keycloak.version>5.0.0</keycloak.version>
 
-        <postgresql.version>42.2.8</postgresql.version>
+        <postgresql.version>42.4.1</postgresql.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
